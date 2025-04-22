@@ -22,7 +22,9 @@
 
 This API provides endpoints for managing an e-commerce store, including products, customers, orders, carts, reviews, and more. All endpoints support filtering, pagination, and proper error handling.
 
-**Base URL:** `http://localhost:3000/api`
+**Base URLs:** 
+- Local Development: `http://localhost:3000/api`
+- Production (Vercel): `https://ecom-store-mulotyj88-theanandprasads-projects.vercel.app/api`
 
 ## Authentication
 

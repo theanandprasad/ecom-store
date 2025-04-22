@@ -1,0 +1,142 @@
+{
+    "reviews": [
+        {
+            "id": "rev_001",
+            "product_id": "prod_001",
+            "customer_id": "cust_001",
+            "order_id": "order_001",
+            "rating": 5,
+            "title": "Excellent sound quality and comfort",
+            "content": "These headphones are amazing! The noise cancellation works perfectly, and they're so comfortable I can wear them for hours. The battery life is impressive too - I've been using them for a week and only needed to charge once.",
+            "verified_purchase": true,
+            "helpful_votes": 12,
+            "images": [
+                "https://example.com/reviews/headphones1.jpg",
+                "https://example.com/reviews/headphones2.jpg"
+            ],
+            "created_at": "2024-03-25T10:30:00Z",
+            "updated_at": "2024-03-25T10:30:00Z"
+        },
+        {
+            "id": "rev_002",
+            "product_id": "prod_001",
+            "customer_id": "cust_005",
+            "order_id": "order_005",
+            "rating": 2,
+            "title": "Disappointed with the build quality",
+            "content": "The headphones stopped working after just two weeks of use. The right earcup developed a crack, and the sound quality degraded significantly. Customer service was helpful with the return process though.",
+            "verified_purchase": true,
+            "helpful_votes": 8,
+            "images": [
+                "https://example.com/reviews/headphones3.jpg"
+            ],
+            "created_at": "2024-03-18T14:20:00Z",
+            "updated_at": "2024-03-20T11:15:00Z"
+        },
+        {
+            "id": "rev_003",
+            "product_id": "prod_002",
+            "customer_id": "cust_002",
+            "order_id": "order_002",
+            "rating": 4,
+            "title": "Great fitness companion",
+            "content": "The heart rate monitoring is accurate, and the GPS tracking works well. Battery lasts about 5 days with regular use. The only downside is the app could be more user-friendly.",
+            "verified_purchase": true,
+            "helpful_votes": 5,
+            "images": [],
+            "created_at": "2024-03-22T09:15:00Z",
+            "updated_at": "2024-03-22T09:15:00Z"
+        },
+        {
+            "id": "rev_004",
+            "product_id": "prod_003",
+            "customer_id": "cust_001",
+            "order_id": "order_001",
+            "rating": 5,
+            "title": "Super soft and comfortable",
+            "content": "These t-shirts are incredibly soft and comfortable. The fit is perfect, and they wash well without shrinking. Will definitely buy more!",
+            "verified_purchase": true,
+            "helpful_votes": 3,
+            "images": [],
+            "created_at": "2024-03-25T11:45:00Z",
+            "updated_at": "2024-03-25T11:45:00Z"
+        },
+        {
+            "id": "rev_005",
+            "product_id": "prod_005",
+            "customer_id": "cust_003",
+            "order_id": null,
+            "rating": 4,
+            "title": "Good quality leather wallet",
+            "content": "The leather feels premium and the stitching is well done. Plenty of card slots and a nice coin pocket. The only improvement would be a slightly larger bill compartment.",
+            "verified_purchase": false,
+            "helpful_votes": 2,
+            "images": [
+                "https://example.com/reviews/wallet1.jpg"
+            ],
+            "created_at": "2024-03-10T16:30:00Z",
+            "updated_at": "2024-03-10T16:30:00Z"
+        },
+        {
+            "id": "rev_006",
+            "product_id": "prod_001",
+            "customer_id": "cust_003",
+            "order_id": null,
+            "rating": 5,
+            "title": "Best headphones I've ever owned",
+            "content": "The sound quality is exceptional, and the noise cancellation is perfect for my daily commute. The battery life is impressive, and they're comfortable enough to wear all day.",
+            "verified_purchase": false,
+            "helpful_votes": 15,
+            "images": [],
+            "created_at": "2024-03-15T13:20:00Z",
+            "updated_at": "2024-03-15T13:20:00Z"
+        },
+        {
+            "id": "rev_007",
+            "product_id": "prod_002",
+            "customer_id": "cust_004",
+            "order_id": null,
+            "rating": 3,
+            "title": "Decent but could be better",
+            "content": "The watch does what it promises, but the heart rate monitor sometimes gives inconsistent readings. The step counter seems accurate though.",
+            "verified_purchase": false,
+            "helpful_votes": 1,
+            "images": [],
+            "created_at": "2024-03-12T11:10:00Z",
+            "updated_at": "2024-03-12T11:10:00Z"
+        },
+        {
+            "id": "rev_008",
+            "product_id": "prod_005",
+            "customer_id": "cust_001",
+            "order_id": "order_010",
+            "rating": 4,
+            "title": "Great quality wallet",
+            "content": "The wallet is made of excellent quality leather that feels premium to the touch. The stitching is very well done, and it has plenty of card slots. My only minor complaint is that the bill compartment could be slightly larger.",
+            "verified_purchase": true,
+            "helpful_votes": 3,
+            "images": [
+                "https://example.com/reviews/wallet_review1.jpg"
+            ],
+            "created_at": "2024-03-28T16:45:00Z",
+            "updated_at": "2024-03-28T16:45:00Z"
+        },
+        {
+            "id": "rev_009",
+            "product_id": "prod_002",
+            "customer_id": "cust_001",
+            "order_id": "order_010",
+            "rating": 5,
+            "title": "Perfect fitness companion",
+            "content": "I'm extremely happy with this fitness watch. The heart rate monitoring is accurate, the sleep tracking has been eye-opening, and the battery life is impressive. The app is intuitive and provides detailed insights about my health and activity. Highly recommended!",
+            "verified_purchase": true,
+            "helpful_votes": 7,
+            "images": [
+                "https://example.com/reviews/watch_review1.jpg",
+                "https://example.com/reviews/watch_review2.jpg"
+            ],
+            "created_at": "2024-03-28T17:15:00Z",
+            "updated_at": "2024-03-28T17:15:00Z"
+        }
+    ]
+} 

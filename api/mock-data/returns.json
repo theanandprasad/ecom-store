@@ -1,0 +1,128 @@
+{
+    "returns": [
+        {
+            "id": "ret_001",
+            "order_id": "order_005",
+            "customer_id": "cust_005",
+            "type": "REFUND",
+            "status": "COMPLETED",
+            "items": [
+                {
+                    "product_id": "prod_001",
+                    "quantity": 1,
+                    "return_reason": "DEFECTIVE",
+                    "return_notes": "Right earcup developed a crack and sound quality degraded",
+                    "refund_amount": {
+                        "product_price": 199.99,
+                        "shipping": 10.00,
+                        "tax": 16.80,
+                        "total": 226.79,
+                        "currency": "USD"
+                    }
+                }
+            ],
+            "return_method": "PREPAID_LABEL",
+            "tracking_number": "9400100897654321",
+            "created_at": "2024-03-18T14:20:00Z",
+            "processed_at": "2024-03-20T11:15:00Z",
+            "refund_issued_at": "2024-03-20T11:30:00Z"
+        },
+        {
+            "id": "ret_002",
+            "order_id": "order_001",
+            "customer_id": "cust_001",
+            "type": "EXCHANGE",
+            "status": "IN_PROGRESS",
+            "items": [
+                {
+                    "product_id": "prod_003",
+                    "quantity": 1,
+                    "return_reason": "WRONG_SIZE",
+                    "return_notes": "Ordered size M, need size L",
+                    "exchange_product": {
+                        "product_id": "prod_003",
+                        "variant": "LARGE"
+                    }
+                }
+            ],
+            "return_method": "PREPAID_LABEL",
+            "tracking_number": "1Z999AA1234567891",
+            "created_at": "2024-03-25T12:30:00Z",
+            "processed_at": null,
+            "refund_issued_at": null
+        },
+        {
+            "id": "ret_003",
+            "order_id": "order_002",
+            "customer_id": "cust_002",
+            "type": "REFUND",
+            "status": "PENDING",
+            "items": [
+                {
+                    "product_id": "prod_002",
+                    "quantity": 1,
+                    "return_reason": "NOT_AS_DESCRIBED",
+                    "return_notes": "Heart rate monitor not working as advertised",
+                    "refund_amount": {
+                        "product_price": 149.99,
+                        "shipping": 8.00,
+                        "tax": 12.64,
+                        "total": 170.63,
+                        "currency": "USD"
+                    }
+                }
+            ],
+            "return_method": "PREPAID_LABEL",
+            "tracking_number": null,
+            "created_at": "2024-03-23T15:45:00Z",
+            "processed_at": null,
+            "refund_issued_at": null
+        },
+        {
+            "id": "ret_004",
+            "order_id": "order_001",
+            "customer_id": "cust_001",
+            "type": "REFUND",
+            "status": "DENIED",
+            "items": [
+                {
+                    "product_id": "prod_002",
+                    "quantity": 1,
+                    "return_reason": "CHANGED_MIND",
+                    "return_notes": "Decided I don't need it anymore",
+                    "refund_amount": null
+                }
+            ],
+            "return_method": "CUSTOMER_PAID",
+            "tracking_number": null,
+            "created_at": "2024-03-24T09:20:00Z",
+            "processed_at": "2024-03-24T10:15:00Z",
+            "refund_issued_at": null,
+            "denial_reason": "Item not eligible for return due to change of mind policy"
+        },
+        {
+            "id": "ret_005",
+            "order_id": "order_003",
+            "customer_id": "cust_003",
+            "type": "EXCHANGE",
+            "status": "APPROVED",
+            "items": [
+                {
+                    "product_id": "prod_004",
+                    "quantity": 1,
+                    "return_reason": "DAMAGED",
+                    "return_notes": "Camera arrived with a cracked lens",
+                    "exchange_product": {
+                        "product_id": "prod_004",
+                        "variant": "NEW"
+                    }
+                }
+            ],
+            "return_method": "PREPAID_LABEL",
+            "tracking_number": null,
+            "created_at": "2024-03-22T17:30:00Z",
+            "processed_at": "2024-03-23T09:45:00Z",
+            "refund_issued_at": null
+        }
+    ]
+} 

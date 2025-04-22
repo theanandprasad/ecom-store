@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import DataService from '@/lib/data-service';
 import { 
   successResponse, 
@@ -7,22 +7,16 @@ import {
 } from '@/utils/api-utils';
 import { Cart, CartItem } from '@/types';
 
-interface RouteParams {
-  params: {
-    cartId: string;
-  };
-}
-
 /**
  * GET /api/carts/:cartId/items
  * Fetch items in a specific cart
  */
 export async function GET(
   request: NextRequest,
-  { params }: RouteParams
+  context: { params: { cartId: string } }
 ) {
   try {
-    const { cartId } = params;
+    const { cartId } = context.params;
     
     // Get the cart by ID
     const cart = await DataService.getCartById(cartId);
@@ -36,7 +30,7 @@ export async function GET(
     return successResponse(cart.items);
     
   } catch (error) {
-    console.error(`Error fetching items for cart ${params.cartId}:`, error);
+    console.error(`Error fetching items for cart ${context.params.cartId}:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while fetching the cart items'
@@ -50,10 +44,10 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: RouteParams
+  context: { params: { cartId: string } }
 ) {
   try {
-    const { cartId } = params;
+    const { cartId } = context.params;
     
     // Get the cart by ID
     const cart = await DataService.getCartById(cartId);
@@ -164,7 +158,7 @@ export async function POST(
     return successResponse(cart);
     
   } catch (error) {
-    console.error(`Error adding item to cart ${params.cartId}:`, error);
+    console.error(`Error adding item to cart ${context.params.cartId}:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while adding the item to the cart'
@@ -178,10 +172,10 @@ export async function POST(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: RouteParams
+  context: { params: { cartId: string } }
 ) {
   try {
-    const { cartId } = params;
+    const { cartId } = context.params;
     
     // Get the cart by ID
     const cart = await DataService.getCartById(cartId);
@@ -207,7 +201,7 @@ export async function DELETE(
     return successResponse(cart);
     
   } catch (error) {
-    console.error(`Error clearing items from cart ${params.cartId}:`, error);
+    console.error(`Error clearing items from cart ${context.params.cartId}:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while clearing the cart items'

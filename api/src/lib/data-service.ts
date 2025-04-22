@@ -14,10 +14,8 @@ import {
   Notification 
 } from '../types';
 
-// Define the path to the mock data directory using environment variable
-const MOCK_DATA_DIR = process.env.MOCK_DATA_PATH
-  ? path.resolve(process.env.MOCK_DATA_PATH)
-  : path.join(process.cwd(), '../../mock-data');
+// Define the path to the mock data directory - now it's inside the api directory
+const MOCK_DATA_DIR = path.join(process.cwd(), 'mock-data');
 
 // Generic interface for all data collections
 interface DataCollections {
@@ -47,6 +45,8 @@ interface DataWrapper<T> {
 async function readData<T>(filename: string): Promise<T[]> {
   try {
     const filePath = path.join(MOCK_DATA_DIR, `${filename}.json`);
+    console.log(`Reading mock data from: ${filePath}`);
+    
     const fileData = await fs.promises.readFile(filePath, 'utf-8');
     const data = JSON.parse(fileData) as DataWrapper<T>;
     const key = Object.keys(data)[0]; // Get the root key (e.g., "products")
@@ -66,12 +66,19 @@ async function readData<T>(filename: string): Promise<T[]> {
 async function writeData<T>(filename: string, data: T[]): Promise<boolean> {
   try {
     const filePath = path.join(MOCK_DATA_DIR, `${filename}.json`);
-    // Get the root key from the existing file
-    const fileData = await fs.promises.readFile(filePath, 'utf-8');
-    const existingData = JSON.parse(fileData) as DataWrapper<T>;
-    const key = Object.keys(existingData)[0]; // Get the root key (e.g., "products")
     
-    // Create the new data object with the same root key
+    // Try to get the root key from the existing file
+    let key = filename; // Default to filename if file doesn't exist
+    try {
+      const fileData = await fs.promises.readFile(filePath, 'utf-8');
+      const existingData = JSON.parse(fileData) as DataWrapper<T>;
+      key = Object.keys(existingData)[0]; // Get the root key (e.g., "products")
+    } catch (err) {
+      // If file doesn't exist, use the filename as key
+      console.log(`Creating new file: ${filePath}`);
+    }
+    
+    // Create the new data object with the root key
     const newData: DataWrapper<T> = { [key]: data } as DataWrapper<T>;
     
     await fs.promises.writeFile(
@@ -199,36 +206,6 @@ export const DataService = {
     const notifications = await readData<Notification>('notifications');
     return notifications.filter(notification => notification.customer_id === customerId);
   },
-  
-  // Write data functions
-  updateProduct: async (product: Product) => {
-    const products = await readData<Product>('products');
-    const index = products.findIndex(p => p.id === product.id);
-    if (index === -1) return false;
-    
-    products[index] = {
-      ...product,
-      updated_at: new Date().toISOString()
-    };
-    
-    return writeData('products', products);
-  },
-  
-  // Add customer update function
-  updateCustomer: async (customer: Customer) => {
-    const customers = await readData<Customer>('customers');
-    const index = customers.findIndex(c => c.id === customer.id);
-    if (index === -1) return false;
-    
-    customers[index] = {
-      ...customer,
-      updated_at: new Date().toISOString()
-    };
-    
-    return writeData('customers', customers);
-  },
-  
-  // Add more update functions as needed for other entities
 };
 
 export default DataService; 

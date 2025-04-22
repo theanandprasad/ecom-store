@@ -1,0 +1,327 @@
+{
+    "orders": [
+        {
+            "id": "order_001",
+            "customer_id": "cust_001",
+            "status": "FULFILLED",
+            "items": [
+                {
+                    "product_id": "prod_001",
+                    "quantity": 1,
+                    "price": {
+                        "amount": 199.99,
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "product_id": "prod_003",
+                    "quantity": 2,
+                    "price": {
+                        "amount": 29.99,
+                        "currency": "USD"
+                    }
+                }
+            ],
+            "shipping_address": {
+                "id": "addr_001",
+                "type": "SHIPPING",
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001",
+                "country": "US"
+            },
+            "billing_address": {
+                "id": "addr_002",
+                "type": "BILLING",
+                "street": "456 Business Ave",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10002",
+                "country": "US"
+            },
+            "payment": {
+                "method": "CREDIT_CARD",
+                "status": "PAID",
+                "amount": {
+                    "subtotal": 259.97,
+                    "shipping": 10.00,
+                    "tax": 20.80,
+                    "total": 290.77,
+                    "currency": "USD"
+                }
+            },
+            "shipping": {
+                "carrier": "UPS",
+                "tracking_number": "1Z999AA1234567890",
+                "estimated_delivery": "2024-03-25T00:00:00Z",
+                "actual_delivery": "2024-03-24T15:30:00Z"
+            },
+            "created_at": "2024-03-20T10:15:00Z",
+            "updated_at": "2024-03-24T15:30:00Z"
+        },
+        {
+            "id": "order_002",
+            "customer_id": "cust_002",
+            "status": "IN_SHIPPING",
+            "items": [
+                {
+                    "product_id": "prod_002",
+                    "quantity": 1,
+                    "price": {
+                        "amount": 149.99,
+                        "currency": "USD"
+                    }
+                }
+            ],
+            "shipping_address": {
+                "id": "addr_003",
+                "type": "SHIPPING",
+                "street": "789 Park Lane",
+                "city": "Los Angeles",
+                "state": "CA",
+                "zip": "90001",
+                "country": "US"
+            },
+            "billing_address": {
+                "id": "addr_003",
+                "type": "BILLING",
+                "street": "789 Park Lane",
+                "city": "Los Angeles",
+                "state": "CA",
+                "zip": "90001",
+                "country": "US"
+            },
+            "payment": {
+                "method": "PAYPAL",
+                "status": "PAID",
+                "amount": {
+                    "subtotal": 149.99,
+                    "shipping": 8.00,
+                    "tax": 12.64,
+                    "total": 170.63,
+                    "currency": "USD"
+                }
+            },
+            "shipping": {
+                "carrier": "FedEx",
+                "tracking_number": "123456789012",
+                "estimated_delivery": "2024-03-26T00:00:00Z",
+                "actual_delivery": null
+            },
+            "created_at": "2024-03-21T14:30:00Z",
+            "updated_at": "2024-03-22T09:15:00Z"
+        },
+        {
+            "id": "order_003",
+            "customer_id": "cust_003",
+            "status": "PENDING",
+            "items": [
+                {
+                    "product_id": "prod_004",
+                    "quantity": 1,
+                    "price": {
+                        "amount": 1299.99,
+                        "currency": "USD"
+                    }
+                }
+            ],
+            "shipping_address": {
+                "id": "addr_004",
+                "type": "SHIPPING",
+                "street": "321 Oak Street",
+                "city": "Chicago",
+                "state": "IL",
+                "zip": "60601",
+                "country": "US"
+            },
+            "billing_address": {
+                "id": "addr_005",
+                "type": "BILLING",
+                "street": "321 Oak Street",
+                "city": "Chicago",
+                "state": "IL",
+                "zip": "60601",
+                "country": "US"
+            },
+            "payment": {
+                "method": "CREDIT_CARD",
+                "status": "PENDING",
+                "amount": {
+                    "subtotal": 1299.99,
+                    "shipping": 15.00,
+                    "tax": 105.00,
+                    "total": 1419.99,
+                    "currency": "USD"
+                }
+            },
+            "shipping": {
+                "carrier": null,
+                "tracking_number": null,
+                "estimated_delivery": null,
+                "actual_delivery": null
+            },
+            "created_at": "2024-03-22T16:45:00Z",
+            "updated_at": "2024-03-22T16:45:00Z"
+        },
+        {
+            "id": "order_004",
+            "customer_id": "cust_004",
+            "status": "CANCELLED",
+            "items": [
+                {
+                    "product_id": "prod_005",
+                    "quantity": 1,
+                    "price": {
+                        "amount": 49.99,
+                        "currency": "USD"
+                    }
+                }
+            ],
+            "shipping_address": {
+                "id": "addr_006",
+                "type": "SHIPPING",
+                "street": "654 Pine Road",
+                "city": "Seattle",
+                "state": "WA",
+                "zip": "98101",
+                "country": "US"
+            },
+            "billing_address": {
+                "id": "addr_006",
+                "type": "BILLING",
+                "street": "654 Pine Road",
+                "city": "Seattle",
+                "state": "WA",
+                "zip": "98101",
+                "country": "US"
+            },
+            "payment": {
+                "method": "CREDIT_CARD",
+                "status": "REFUNDED",
+                "amount": {
+                    "subtotal": 49.99,
+                    "shipping": 5.00,
+                    "tax": 4.40,
+                    "total": 59.39,
+                    "currency": "USD"
+                }
+            },
+            "shipping": null,
+            "created_at": "2024-03-19T11:20:00Z",
+            "updated_at": "2024-03-20T09:30:00Z"
+        },
+        {
+            "id": "order_005",
+            "customer_id": "cust_005",
+            "status": "RETURNED",
+            "items": [
+                {
+                    "product_id": "prod_001",
+                    "quantity": 1,
+                    "price": {
+                        "amount": 199.99,
+                        "currency": "USD"
+                    }
+                }
+            ],
+            "shipping_address": {
+                "id": "addr_007",
+                "type": "SHIPPING",
+                "street": "987 Maple Avenue",
+                "city": "Boston",
+                "state": "MA",
+                "zip": "02108",
+                "country": "US"
+            },
+            "billing_address": {
+                "id": "addr_007",
+                "type": "BILLING",
+                "street": "987 Maple Avenue",
+                "city": "Boston",
+                "state": "MA",
+                "zip": "02108",
+                "country": "US"
+            },
+            "payment": {
+                "method": "CREDIT_CARD",
+                "status": "REFUNDED",
+                "amount": {
+                    "subtotal": 199.99,
+                    "shipping": 10.00,
+                    "tax": 16.80,
+                    "total": 226.79,
+                    "currency": "USD"
+                }
+            },
+            "shipping": {
+                "carrier": "USPS",
+                "tracking_number": "9400100897654321",
+                "estimated_delivery": "2024-03-18T00:00:00Z",
+                "actual_delivery": "2024-03-17T14:20:00Z"
+            },
+            "created_at": "2024-03-15T09:45:00Z",
+            "updated_at": "2024-03-20T11:15:00Z"
+        },
+        {
+            "id": "order_010",
+            "customer_id": "cust_001",
+            "status": "PROCESSING",
+            "items": [
+                {
+                    "product_id": "prod_005",
+                    "quantity": 1,
+                    "price": {
+                        "amount": 49.99,
+                        "currency": "USD"
+                    }
+                },
+                {
+                    "product_id": "prod_002",
+                    "quantity": 1,
+                    "price": {
+                        "amount": 149.99,
+                        "currency": "USD"
+                    }
+                }
+            ],
+            "shipping_address": {
+                "id": "addr_001",
+                "type": "SHIPPING",
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001",
+                "country": "US"
+            },
+            "billing_address": {
+                "id": "addr_002",
+                "type": "BILLING",
+                "street": "456 Business Ave",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10002",
+                "country": "US"
+            },
+            "payment": {
+                "method": "CREDIT_CARD",
+                "status": "PAID",
+                "amount": {
+                    "subtotal": 199.98,
+                    "shipping": 10.00,
+                    "tax": 16.80,
+                    "total": 226.78,
+                    "currency": "USD"
+                }
+            },
+            "shipping": {
+                "carrier": "UPS",
+                "tracking_number": "1Z999AA9876543210",
+                "estimated_delivery": "2024-03-30T00:00:00Z",
+                "actual_delivery": null
+            },
+            "created_at": "2024-03-27T09:45:00Z",
+            "updated_at": "2024-03-27T14:30:00Z"
+        }
+    ]
+} 
