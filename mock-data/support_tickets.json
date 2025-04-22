@@ -140,6 +140,27 @@
             "created_at": "2024-03-24T14:20:00Z",
             "updated_at": "2024-03-24T15:00:00Z",
             "resolved_at": "2024-03-24T15:00:00Z"
+        },
+        {
+            "id": "ticket_006",
+            "customer_id": "cust_001",
+            "order_id": "order_010",
+            "return_id": null,
+            "subject": "Missing Item in Order",
+            "category": "ORDER_ISSUES",
+            "priority": "HIGH",
+            "status": "OPEN",
+            "messages": [
+                {
+                    "id": "msg_012",
+                    "sender": "CUSTOMER",
+                    "content": "I received my order today, but the fitness watch was missing from the package. I only received the leather wallet.",
+                    "timestamp": "2024-03-28T11:20:00Z"
+                }
+            ],
+            "created_at": "2024-03-28T11:20:00Z",
+            "updated_at": "2024-03-28T11:20:00Z",
+            "resolved_at": null
         }
     ]
 } 

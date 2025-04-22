@@ -214,6 +214,20 @@ export const DataService = {
     return writeData('products', products);
   },
   
+  // Add customer update function
+  updateCustomer: async (customer: Customer) => {
+    const customers = await readData<Customer>('customers');
+    const index = customers.findIndex(c => c.id === customer.id);
+    if (index === -1) return false;
+    
+    customers[index] = {
+      ...customer,
+      updated_at: new Date().toISOString()
+    };
+    
+    return writeData('customers', customers);
+  },
+  
   // Add more update functions as needed for other entities
 };
 

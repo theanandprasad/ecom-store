@@ -5,7 +5,13 @@ import { authMiddleware } from './middlewares/auth-middleware';
 const PROTECTED_ROUTES = ['/api'];
 
 // Define routes that should be public (not requiring authentication)
-const PUBLIC_ROUTES = ['/api/docs', '/swagger.json', '/api-spec.json'];
+const PUBLIC_ROUTES = [
+  '/api/docs', 
+  '/swagger.json', 
+  '/api-spec.json',
+  '/api/auth/send-otp',
+  '/api/auth/verify-otp'
+];
 
 /**
  * Middleware function that runs before API routes

@@ -58,7 +58,7 @@ export default function Home() {
                 <code className="font-mono font-bold">GET /api/products/:id/reviews</code> - Get product reviews
               </li>
               <li>
-                <code className="font-mono font-bold">POST /api/products/:id/reviews</code> - Add a review for a product
+                <code className="font-mono font-bold">POST /api/products/:id/reviews</code> - Add a review to a product
               </li>
             </ul>
           </div>
@@ -80,6 +80,45 @@ export default function Home() {
               </li>
               <li>
                 <code className="font-mono font-bold">DELETE /api/customers/:id</code> - Delete a customer
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/customers/:id/orders</code> - Get customer orders
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/customers/:id/cart</code> - Get customer cart
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/customers/:id/wishlist</code> - Get customer wishlist
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/customers/:id/reviews</code> - Get customer reviews
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/customers/:id/support-tickets</code> - Get customer support tickets
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/customers/:id/returns</code> - Get customer returns
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/customers/:id/notifications</code> - Get customer notifications
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/customers/:id/loyalty</code> - Get customer loyalty info
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/customers/:id/addresses</code> - Get customer addresses
+              </li>
+              <li>
+                <code className="font-mono font-bold">POST /api/customers/:id/addresses</code> - Add new customer address
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/customers/:id/addresses/:addressId</code> - Get specific customer address
+              </li>
+              <li>
+                <code className="font-mono font-bold">PUT /api/customers/:id/addresses/:addressId</code> - Update customer address
+              </li>
+              <li>
+                <code className="font-mono font-bold">DELETE /api/customers/:id/addresses/:addressId</code> - Delete customer address
               </li>
             </ul>
           </div>
@@ -226,6 +265,21 @@ export default function Home() {
           </div>
 
           <div className="mb-6">
+            <h3 className="text-xl font-semibold mb-2">Reviews</h3>
+            <ul className="list-disc ml-5 space-y-1">
+              <li>
+                <code className="font-mono font-bold">GET /api/products/:productId/reviews</code> - Get reviews for a product
+              </li>
+              <li>
+                <code className="font-mono font-bold">POST /api/products/:productId/reviews</code> - Create a review for a product
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/customers/:customerId/reviews</code> - Get reviews by a customer
+              </li>
+            </ul>
+          </div>
+
+          <div className="mb-6">
             <h3 className="text-xl font-semibold mb-2">Search</h3>
             <ul className="list-disc ml-5 space-y-1">
               <li>
@@ -251,16 +305,41 @@ export default function Home() {
       <div className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Authentication</h2>
         <p className="mb-4">
-          All API requests require Basic Authentication:
+          The API supports two authentication methods:
         </p>
-        <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto">
-          <code className="text-sm">
-            Authorization: Basic base64(username:password)
-          </code>
-        </pre>
-        <p className="mt-2">
-          Default credentials: <code className="bg-gray-100 dark:bg-gray-800 p-1 rounded">admin:admin123</code>
-        </p>
+        
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold mb-2">1. Basic Authentication</h3>
+          <p className="mb-2">
+            Most API endpoints require Basic Authentication:
+          </p>
+          <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto">
+            <code className="text-sm">
+              Authorization: Basic base64(username:password)
+            </code>
+          </pre>
+          <p className="mt-2">
+            Default credentials: <code className="bg-gray-100 dark:bg-gray-800 p-1 rounded">admin:admin123</code>
+          </p>
+        </div>
+        
+        <div className="mb-4">
+          <h3 className="text-xl font-semibold mb-2">2. OTP-based Authentication</h3>
+          <p className="mb-2">
+            For client applications, use the OTP (One-Time Password) flow:
+          </p>
+          <ol className="list-decimal ml-5 space-y-2">
+            <li>
+              <strong>Request OTP:</strong> Send a request to <code className="bg-gray-100 dark:bg-gray-800 p-1 rounded">POST /api/auth/send-otp</code> with <code className="bg-gray-100 dark:bg-gray-800 p-1 rounded">{`{"phone_or_email": "user@example.com"}`}</code>
+            </li>
+            <li>
+              <strong>Verify OTP:</strong> Send the received code to <code className="bg-gray-100 dark:bg-gray-800 p-1 rounded">POST /api/auth/verify-otp</code> with <code className="bg-gray-100 dark:bg-gray-800 p-1 rounded">{`{"otp_session_id": "session_id", "code": "123456"}`}</code>
+            </li>
+            <li>
+              <strong>Use JWT Token:</strong> Include the returned JWT token in subsequent requests: <code className="bg-gray-100 dark:bg-gray-800 p-1 rounded">Authorization: Bearer &lt;token&gt;</code>
+            </li>
+          </ol>
+        </div>
       </div>
 
       <div className="mb-8 w-full max-w-5xl">

@@ -120,6 +120,41 @@
             ],
             "created_at": "2024-03-25T15:10:00Z",
             "updated_at": "2024-03-25T15:15:00Z"
+        },
+        {
+            "id": "wish_006",
+            "customer_id": "cust_001",
+            "name": "Home Improvement",
+            "is_public": false,
+            "shared_with": [],
+            "items": [
+                {
+                    "product_id": "prod_005",
+                    "added_at": "2024-03-26T18:30:00Z",
+                    "notes": "Gift for brother's birthday",
+                    "price_alert": {
+                        "target_price": 39.99,
+                        "is_active": true
+                    }
+                },
+                {
+                    "product_id": "prod_003",
+                    "added_at": "2024-03-26T18:35:00Z",
+                    "notes": "Need some new shirts for summer",
+                    "price_alert": {
+                        "target_price": 19.99,
+                        "is_active": true
+                    }
+                },
+                {
+                    "product_id": "prod_004",
+                    "added_at": "2024-03-26T18:40:00Z",
+                    "notes": "For when it's back in stock",
+                    "price_alert": null
+                }
+            ],
+            "created_at": "2024-03-26T18:30:00Z",
+            "updated_at": "2024-03-26T18:40:00Z"
         }
     ]
 } 

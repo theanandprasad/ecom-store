@@ -104,6 +104,39 @@
             "images": [],
             "created_at": "2024-03-12T11:10:00Z",
             "updated_at": "2024-03-12T11:10:00Z"
+        },
+        {
+            "id": "rev_008",
+            "product_id": "prod_005",
+            "customer_id": "cust_001",
+            "order_id": "order_010",
+            "rating": 4,
+            "title": "Great quality wallet",
+            "content": "The wallet is made of excellent quality leather that feels premium to the touch. The stitching is very well done, and it has plenty of card slots. My only minor complaint is that the bill compartment could be slightly larger.",
+            "verified_purchase": true,
+            "helpful_votes": 3,
+            "images": [
+                "https://example.com/reviews/wallet_review1.jpg"
+            ],
+            "created_at": "2024-03-28T16:45:00Z",
+            "updated_at": "2024-03-28T16:45:00Z"
+        },
+        {
+            "id": "rev_009",
+            "product_id": "prod_002",
+            "customer_id": "cust_001",
+            "order_id": "order_010",
+            "rating": 5,
+            "title": "Perfect fitness companion",
+            "content": "I'm extremely happy with this fitness watch. The heart rate monitoring is accurate, the sleep tracking has been eye-opening, and the battery life is impressive. The app is intuitive and provides detailed insights about my health and activity. Highly recommended!",
+            "verified_purchase": true,
+            "helpful_votes": 7,
+            "images": [
+                "https://example.com/reviews/watch_review1.jpg",
+                "https://example.com/reviews/watch_review2.jpg"
+            ],
+            "created_at": "2024-03-28T17:15:00Z",
+            "updated_at": "2024-03-28T17:15:00Z"
         }
     ]
 } 
