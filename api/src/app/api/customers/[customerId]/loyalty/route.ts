@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import DataService from '@/lib/data-service';
+import { getCustomerById } from '@/lib/unified-data-service';
 import { 
   successResponse, 
   errorResponse, 
@@ -18,13 +18,13 @@ interface RouteParams {
  */
 export async function GET(
   request: NextRequest,
-  { params }: RouteParams
+  context: RouteParams
 ) {
   try {
-    const { customerId } = params;
+    const customerId = context.params.customerId;
     
     // Check if the customer exists
-    const customer = await DataService.getCustomerById(customerId);
+    const customer = await getCustomerById(customerId);
     
     // If customer not found, return 404 error
     if (!customer) {
@@ -73,7 +73,7 @@ export async function GET(
     return successResponse(loyaltyInfo);
     
   } catch (error) {
-    console.error(`Error fetching loyalty information for customer ${params.customerId}:`, error);
+    console.error(`Error fetching loyalty information for customer:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while fetching the loyalty information'

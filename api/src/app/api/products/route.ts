@@ -1,134 +1,88 @@
-import { NextRequest } from 'next/server';
-import DataService from '@/lib/data-service';
-import { paginatedResponse, successResponse, errorResponse } from '@/utils/api-utils';
-
 /**
- * GET /api/products
- * Fetch all products with optional filtering and pagination
+ * Products API endpoint
+ * GET - Get all products with pagination and filtering
+ * POST - Create a new product (when NeDB is enabled)
  */
+import { NextRequest, NextResponse } from 'next/server';
+import { getAllProducts, createProduct } from '@/lib/db/services/products';
+import { useNeDb } from '@/lib/config';
+
 export async function GET(request: NextRequest) {
   try {
-    // Get all products
-    const products = await DataService.getProducts();
-    
-    // Extract query parameters
-    const { searchParams } = new URL(request.url);
+    // Parse query parameters
+    const searchParams = request.nextUrl.searchParams;
     const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '20');
-    const category = searchParams.get('category');
-    const brand = searchParams.get('brand');
-    const minPrice = parseFloat(searchParams.get('min_price') || '0');
-    const maxPrice = parseFloat(searchParams.get('max_price') || 'Infinity');
-    const inStock = searchParams.get('in_stock') === 'true';
+    const limit = parseInt(searchParams.get('limit') || '10');
+    const category = searchParams.get('category') || undefined;
+    const search = searchParams.get('search') || undefined;
+    const sort_by = searchParams.get('sort_by') || undefined;
+    const sort_order = (searchParams.get('sort_order') as 'asc' | 'desc') || undefined;
     
-    // Apply filters
-    let filteredProducts = products;
+    // Get products
+    const result = await getAllProducts({
+      page,
+      limit,
+      category,
+      search,
+      sort_by,
+      sort_order
+    });
     
-    if (category) {
-      filteredProducts = filteredProducts.filter(
-        product => product.category.toLowerCase() === category.toLowerCase()
-      );
-    }
-    
-    if (brand) {
-      filteredProducts = filteredProducts.filter(
-        product => product.brand.toLowerCase() === brand.toLowerCase()
-      );
-    }
-    
-    // Filter by price range
-    filteredProducts = filteredProducts.filter(
-      product => product.price.amount >= minPrice && product.price.amount <= maxPrice
-    );
-    
-    // Filter by stock status if specified
-    if (searchParams.has('in_stock')) {
-      filteredProducts = filteredProducts.filter(
-        product => product.in_stock === inStock
-      );
-    }
-    
-    // Calculate pagination
-    const total = filteredProducts.length;
-    const startIndex = (page - 1) * limit;
-    const endIndex = Math.min(startIndex + limit, total);
-    const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
-    
-    // Return paginated results
-    return paginatedResponse(paginatedProducts, total, page, limit);
-    
+    return NextResponse.json(result);
   } catch (error) {
     console.error('Error fetching products:', error);
-    return errorResponse(
-      'INTERNAL_SERVER_ERROR',
-      'An error occurred while fetching products'
+    return NextResponse.json(
+      { error: 'Failed to fetch products' },
+      { status: 500 }
     );
   }
 }
 
-/**
- * POST /api/products
- * Create a new product
- */
 export async function POST(request: NextRequest) {
   try {
-    // Parse request body
-    const body = await request.json();
-    
-    // Validate required fields
-    if (!body.name || !body.price || !body.category) {
-      return errorResponse(
-        'VALIDATION_ERROR',
-        'Missing required fields',
-        {
-          required_fields: ['name', 'price', 'category']
-        }
+    // Check if NeDB is enabled
+    if (!useNeDb()) {
+      return NextResponse.json(
+        { error: 'Write operations not enabled. Enable NeDB mode to create products.' },
+        { status: 400 }
       );
     }
     
-    // Get existing products
-    const products = await DataService.getProducts();
+    // Parse request body
+    const productData = await request.json();
     
-    // Generate a new product ID
-    const productId = `prod_${(products.length + 1).toString().padStart(3, '0')}`;
+    // Validate required fields
+    const requiredFields = ['name', 'description', 'price', 'image_url', 'category', 'stock'];
+    const missingFields = requiredFields.filter(field => !productData[field]);
     
-    // Create a new product
-    const newProduct = {
-      id: productId,
-      name: body.name,
-      description: body.description || '',
-      price: {
-        amount: body.price.amount || 0,
-        currency: body.price.currency || 'USD'
-      },
-      in_stock: body.in_stock !== undefined ? body.in_stock : true,
-      stock_quantity: body.stock_quantity || 0,
-      images: body.images || [],
-      attributes: body.attributes || {},
-      category: body.category,
-      brand: body.brand || '',
-      rating: 0,
-      review_count: 0,
-      tags: body.tags || [],
-      specifications: body.specifications || {},
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
+    if (missingFields.length > 0) {
+      return NextResponse.json(
+        { error: `Missing required fields: ${missingFields.join(', ')}` },
+        { status: 400 }
+      );
+    }
     
-    // Add the new product to the products array
-    products.push(newProduct);
+    // Create product
+    const newProduct = await createProduct(productData);
     
-    // Write the updated products back to the file
-    await DataService.updateProduct(newProduct);
-    
-    // Return the created product
-    return successResponse(newProduct);
-    
+    return NextResponse.json(
+      { product: newProduct },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Error creating product:', error);
-    return errorResponse(
-      'INTERNAL_SERVER_ERROR',
-      'An error occurred while creating the product'
+    
+    // Handle specific errors
+    if (error instanceof Error && error.message === 'Cannot write to static JSON files') {
+      return NextResponse.json(
+        { error: 'Write operations not enabled. Enable NeDB mode to create products.' },
+        { status: 400 }
+      );
+    }
+    
+    return NextResponse.json(
+      { error: 'Failed to create product' },
+      { status: 500 }
     );
   }
 } 

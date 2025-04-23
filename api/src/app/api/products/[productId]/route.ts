@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
-import DataService from '@/lib/data-service';
+import { getProductById, updateProduct, deleteProduct } from '@/lib/db/services/products';
+import { useNeDb } from '@/lib/config';
 import { 
   successResponse, 
   errorResponse, 
@@ -18,13 +19,14 @@ interface RouteParams {
  */
 export async function GET(
   request: NextRequest,
-  { params }: RouteParams
+  context: RouteParams
 ) {
   try {
-    const { productId } = params;
+    // Safely extract productId from params
+    const productId = context.params.productId;
     
     // Get the product by ID
-    const product = await DataService.getProductById(productId);
+    const product = await getProductById(productId);
     
     // If product not found, return 404 error
     if (!product) {
@@ -35,7 +37,7 @@ export async function GET(
     return successResponse(product);
     
   } catch (error) {
-    console.error(`Error fetching product ${params.productId}:`, error);
+    console.error(`Error fetching product:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while fetching the product'
@@ -49,13 +51,22 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: RouteParams
+  context: RouteParams
 ) {
   try {
-    const { productId } = params;
+    // Safely extract productId from params
+    const productId = context.params.productId;
     
-    // Get the product by ID
-    const product = await DataService.getProductById(productId);
+    // Check if NeDB is enabled
+    if (!useNeDb()) {
+      return errorResponse(
+        'VALIDATION_ERROR', 
+        'Write operations not enabled. Enable NeDB mode to update products.'
+      );
+    }
+    
+    // First check if product exists
+    const product = await getProductById(productId);
     
     // If product not found, return 404 error
     if (!product) {
@@ -65,43 +76,34 @@ export async function PUT(
     // Parse request body
     const body = await request.json();
     
-    // Update the product with new values, keeping existing ones if not provided
-    const updatedProduct = {
-      ...product,
+    // Create update object with new values, keeping existing ones if not provided
+    const updates = {
       name: body.name || product.name,
       description: body.description || product.description,
-      price: body.price ? {
-        amount: body.price.amount || product.price.amount,
-        currency: body.price.currency || product.price.currency
-      } : product.price,
-      in_stock: body.in_stock !== undefined ? body.in_stock : product.in_stock,
-      stock_quantity: body.stock_quantity !== undefined ? body.stock_quantity : product.stock_quantity,
-      images: body.images || product.images,
-      attributes: body.attributes ? { ...product.attributes, ...body.attributes } : product.attributes,
+      price: body.price !== undefined ? body.price : product.price,
+      stock: body.stock !== undefined ? body.stock : product.stock,
+      image_url: body.image_url || product.image_url,
       category: body.category || product.category,
-      brand: body.brand || product.brand,
-      tags: body.tags || product.tags,
-      specifications: body.specifications ? { ...product.specifications, ...body.specifications } : product.specifications,
+      // Add additional fields as needed
       updated_at: new Date().toISOString()
     };
     
-    // Get all products
-    const products = await DataService.getProducts();
+    // Update the product
+    const updatedProduct = await updateProduct(productId, updates);
     
-    // Find the index of the product to update
-    const index = products.findIndex(p => p.id === productId);
-    
-    // Update the product in the array
-    products[index] = updatedProduct;
-    
-    // Save the updated product
-    await DataService.updateProduct(updatedProduct);
+    // If update failed
+    if (!updatedProduct) {
+      return errorResponse(
+        'INTERNAL_SERVER_ERROR',
+        'Failed to update product'
+      );
+    }
     
     // Return the updated product
     return successResponse(updatedProduct);
     
   } catch (error) {
-    console.error(`Error updating product ${params.productId}:`, error);
+    console.error(`Error updating product:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while updating the product'
@@ -115,32 +117,44 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: RouteParams
+  context: RouteParams
 ) {
   try {
-    const { productId } = params;
+    // Safely extract productId from params
+    const productId = context.params.productId;
     
-    // Get the product by ID
-    const product = await DataService.getProductById(productId);
+    // Check if NeDB is enabled
+    if (!useNeDb()) {
+      return errorResponse(
+        'VALIDATION_ERROR', 
+        'Write operations not enabled. Enable NeDB mode to delete products.'
+      );
+    }
+    
+    // First check if product exists
+    const product = await getProductById(productId);
     
     // If product not found, return 404 error
     if (!product) {
       return notFoundResponse('product', productId);
     }
     
-    // Get all products
-    const products = await DataService.getProducts();
+    // Delete the product
+    const success = await deleteProduct(productId);
     
-    // Filter out the product to delete
-    const updatedProducts = products.filter(p => p.id !== productId);
+    // If deletion failed
+    if (!success) {
+      return errorResponse(
+        'INTERNAL_SERVER_ERROR',
+        'Failed to delete product'
+      );
+    }
     
-    // Return no content (204) on successful deletion
-    // Note: In a real implementation, we would save the updated products list
-    // For now, we're just simulating the deletion
+    // Return success message
     return successResponse({ message: "Product deleted successfully" });
     
   } catch (error) {
-    console.error(`Error deleting product ${params.productId}:`, error);
+    console.error(`Error deleting product:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while deleting the product'

@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
-import DataService from '@/lib/data-service';
+import { getCustomerById } from '@/lib/unified-data-service';
+import { useNeDb } from '@/lib/config';
 import { 
   successResponse, 
   errorResponse, 
@@ -19,13 +20,13 @@ interface RouteParams {
  */
 export async function GET(
   request: NextRequest,
-  { params }: RouteParams
+  context: RouteParams
 ) {
   try {
-    const { customerId } = params;
+    const customerId = context.params.customerId;
     
     // Get the customer by ID
-    const customer = await DataService.getCustomerById(customerId);
+    const customer = await getCustomerById(customerId);
     
     // If customer not found, return 404 error
     if (!customer) {
@@ -36,7 +37,7 @@ export async function GET(
     return successResponse(customer);
     
   } catch (error) {
-    console.error(`Error fetching customer ${params.customerId}:`, error);
+    console.error(`Error fetching customer:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while fetching the customer'
@@ -50,13 +51,21 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: RouteParams
+  context: RouteParams
 ) {
   try {
-    const { customerId } = params;
+    const customerId = context.params.customerId;
+    
+    // Check if NeDB is enabled for write operations
+    if (!useNeDb()) {
+      return errorResponse(
+        'VALIDATION_ERROR', 
+        'Write operations not enabled. Enable NeDB mode to update customers.'
+      );
+    }
     
     // Get the customer by ID
-    const customer = await DataService.getCustomerById(customerId);
+    const customer = await getCustomerById(customerId);
     
     // If customer not found, return 404 error
     if (!customer) {
@@ -84,23 +93,14 @@ export async function PUT(
       updated_at: new Date().toISOString()
     };
     
-    // Get all customers
-    const customers = await DataService.getCustomers();
-    
-    // Find the index of the customer to update
-    const index = customers.findIndex(c => c.id === customerId);
-    
-    // Update the customer in the array
-    customers[index] = updatedCustomer;
-    
-    // In a real implementation, we would save the updated customers list
-    // For now, we're just simulating the update
+    // In a real implementation with NeDB, we would update the customer
+    // For now, since we don't have a customer NeDB service yet, we'll just return the updated customer
     
     // Return the updated customer
     return successResponse(updatedCustomer);
     
   } catch (error) {
-    console.error(`Error updating customer ${params.customerId}:`, error);
+    console.error(`Error updating customer:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while updating the customer'
@@ -114,33 +114,35 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: RouteParams
+  context: RouteParams
 ) {
   try {
-    const { customerId } = params;
+    const customerId = context.params.customerId;
+    
+    // Check if NeDB is enabled for write operations
+    if (!useNeDb()) {
+      return errorResponse(
+        'VALIDATION_ERROR', 
+        'Write operations not enabled. Enable NeDB mode to delete customers.'
+      );
+    }
     
     // Get the customer by ID
-    const customer = await DataService.getCustomerById(customerId);
+    const customer = await getCustomerById(customerId);
     
     // If customer not found, return 404 error
     if (!customer) {
       return notFoundResponse('customer', customerId);
     }
     
-    // Get all customers
-    const customers = await DataService.getCustomers();
-    
-    // Filter out the customer to delete
-    const updatedCustomers = customers.filter(c => c.id !== customerId);
-    
-    // In a real implementation, we would save the updated customers list
-    // For now, we're just simulating the deletion
+    // In a real implementation with NeDB, we would delete the customer
+    // For now, since we don't have a customer NeDB service yet, we'll just return success
     
     // Return success message
     return successResponse({ message: "Customer deleted successfully" });
     
   } catch (error) {
-    console.error(`Error deleting customer ${params.customerId}:`, error);
+    console.error(`Error deleting customer:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while deleting the customer'

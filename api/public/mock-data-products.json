@@ -1,0 +1,67 @@
+[
+  {
+    "id": "prod_001",
+    "name": "Premium Wireless Headphones",
+    "description": "Noise-cancelling wireless headphones with premium sound quality and 20-hour battery life.",
+    "price": 199.99,
+    "image_url": "https://example.com/images/headphones.jpg",
+    "category": "Electronics",
+    "stock": 50,
+    "rating": 4.7,
+    "reviews_count": 182,
+    "created_at": "2023-10-15T12:00:00Z",
+    "updated_at": "2023-10-15T12:00:00Z"
+  },
+  {
+    "id": "prod_002",
+    "name": "Smart Fitness Watch",
+    "description": "Track your fitness and health with this smart watch featuring heart rate monitor, sleep tracking, and more.",
+    "price": 149.99,
+    "image_url": "https://example.com/images/fitness-watch.jpg",
+    "category": "Wearables",
+    "stock": 75,
+    "rating": 4.5,
+    "reviews_count": 135,
+    "created_at": "2023-10-16T10:30:00Z",
+    "updated_at": "2023-10-16T10:30:00Z"
+  },
+  {
+    "id": "prod_003",
+    "name": "Organic Cotton T-Shirt",
+    "description": "Comfortable, eco-friendly t-shirt made from 100% organic cotton.",
+    "price": 29.99,
+    "image_url": "https://example.com/images/tshirt.jpg",
+    "category": "Clothing",
+    "stock": 200,
+    "rating": 4.2,
+    "reviews_count": 89,
+    "created_at": "2023-10-17T14:45:00Z",
+    "updated_at": "2023-10-17T14:45:00Z"
+  },
+  {
+    "id": "prod_004",
+    "name": "Professional Camera",
+    "description": "High-resolution digital camera with manual controls and interchangeable lenses.",
+    "price": 1299.99,
+    "image_url": "https://example.com/images/camera.jpg",
+    "category": "Electronics",
+    "stock": 15,
+    "rating": 4.8,
+    "reviews_count": 67,
+    "created_at": "2023-10-18T09:15:00Z",
+    "updated_at": "2023-10-18T09:15:00Z"
+  },
+  {
+    "id": "prod_005",
+    "name": "Leather Wallet",
+    "description": "Handcrafted genuine leather wallet with multiple card slots and RFID protection.",
+    "price": 49.99,
+    "image_url": "https://example.com/images/wallet.jpg",
+    "category": "Accessories",
+    "stock": 0,
+    "rating": 4.6,
+    "reviews_count": 104,
+    "created_at": "2023-10-19T11:20:00Z",
+    "updated_at": "2023-10-19T11:20:00Z"
+  }
+]

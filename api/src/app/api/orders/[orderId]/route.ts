@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
-import DataService from '@/lib/data-service';
+import { getOrderById } from '@/lib/unified-data-service';
+import { useNeDb } from '@/lib/config';
 import { 
   successResponse, 
   errorResponse, 
@@ -19,13 +20,13 @@ interface RouteParams {
  */
 export async function GET(
   request: NextRequest,
-  { params }: RouteParams
+  context: RouteParams
 ) {
   try {
-    const { orderId } = params;
+    const orderId = context.params.orderId;
     
     // Get the order by ID
-    const order = await DataService.getOrderById(orderId);
+    const order = await getOrderById(orderId);
     
     // If order not found, return 404 error
     if (!order) {
@@ -36,7 +37,7 @@ export async function GET(
     return successResponse(order);
     
   } catch (error) {
-    console.error(`Error fetching order ${params.orderId}:`, error);
+    console.error(`Error fetching order:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while fetching the order'
@@ -50,13 +51,21 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: RouteParams
+  context: RouteParams
 ) {
   try {
-    const { orderId } = params;
+    const orderId = context.params.orderId;
+    
+    // Check if NeDB is enabled for write operations
+    if (!useNeDb()) {
+      return errorResponse(
+        'VALIDATION_ERROR', 
+        'Write operations not enabled. Enable NeDB mode to update orders.'
+      );
+    }
     
     // Get the order by ID
-    const order = await DataService.getOrderById(orderId);
+    const order = await getOrderById(orderId);
     
     // If order not found, return 404 error
     if (!order) {
@@ -112,23 +121,14 @@ export async function PUT(
       }
     }
     
-    // Get all orders
-    const orders = await DataService.getOrders();
-    
-    // Find the index of the order to update
-    const index = orders.findIndex(o => o.id === orderId);
-    
-    // Update the order in the array
-    orders[index] = updatedOrder;
-    
-    // In a real implementation, we would save the updated orders list
-    // For now, we're just simulating the update
+    // In a real implementation with NeDB, we would update the order
+    // For now, since we don't have a order NeDB service yet, we'll just return the updated order
     
     // Return the updated order
     return successResponse(updatedOrder);
     
   } catch (error) {
-    console.error(`Error updating order ${params.orderId}:`, error);
+    console.error(`Error updating order:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while updating the order'
@@ -142,13 +142,21 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: RouteParams
+  context: RouteParams
 ) {
   try {
-    const { orderId } = params;
+    const orderId = context.params.orderId;
+    
+    // Check if NeDB is enabled for write operations
+    if (!useNeDb()) {
+      return errorResponse(
+        'VALIDATION_ERROR', 
+        'Write operations not enabled. Enable NeDB mode to delete orders.'
+      );
+    }
     
     // Get the order by ID
-    const order = await DataService.getOrderById(orderId);
+    const order = await getOrderById(orderId);
     
     // If order not found, return 404 error
     if (!order) {
@@ -167,20 +175,14 @@ export async function DELETE(
       );
     }
     
-    // Get all orders
-    const orders = await DataService.getOrders();
-    
-    // Filter out the order to delete
-    const updatedOrders = orders.filter(o => o.id !== orderId);
-    
-    // In a real implementation, we would save the updated orders list
-    // For now, we're just simulating the deletion
+    // In a real implementation with NeDB, we would delete the order
+    // For now, since we don't have a order NeDB service yet, we'll just return success
     
     // Return success message
     return successResponse({ message: "Order deleted successfully" });
     
   } catch (error) {
-    console.error(`Error deleting order ${params.orderId}:`, error);
+    console.error(`Error deleting order:`, error);
     return errorResponse(
       'INTERNAL_SERVER_ERROR',
       'An error occurred while deleting the order'
