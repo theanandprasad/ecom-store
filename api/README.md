@@ -58,7 +58,7 @@ npm run dev
 yarn dev
 ```
 
-The API will be available at `http://localhost:3000/api`.
+The API will be available at `https://ecom-store-ebon.vercel.app/api`.
 
 ## Testing
 

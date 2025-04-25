@@ -388,29 +388,29 @@ After implementing these changes:
 
 1. Toggle to static JSON mode with:
    ```bash
-   curl -X POST "http://localhost:3000/api/admin/database/toggle" -u admin:admin123
+   curl -X POST "https://ecom-store-ebon.vercel.app/api/admin/database/toggle" -u admin:admin123
    ```
 
 2. Toggle back to NeDB mode:
    ```bash
-   curl -X POST "http://localhost:3000/api/admin/database/toggle" -u admin:admin123
+   curl -X POST "https://ecom-store-ebon.vercel.app/api/admin/database/toggle" -u admin:admin123
    ```
 
 3. Run the normalization process:
    ```bash
-   curl -X POST "http://localhost:3000/api/admin/database/normalize" -u admin:admin123
+   curl -X POST "https://ecom-store-ebon.vercel.app/api/admin/database/normalize" -u admin:admin123
    ```
 
 4. Test CRUD operations:
    ```bash
    # Create a product
-   curl -X POST "http://localhost:3000/api/products" -u admin:admin123 -H "Content-Type: application/json" -d '{"name": "Test Product", "description": "A test product", "price": 99.99, "image_url": "https://example.com/image.jpg", "category": "Test", "stock": 10}'
+   curl -X POST "https://ecom-store-ebon.vercel.app/api/products" -u admin:admin123 -H "Content-Type: application/json" -d '{"name": "Test Product", "description": "A test product", "price": 99.99, "image_url": "https://example.com/test.jpg", "category": "Electronics"}'
    
-   # Retrieve the product by ID
-   curl -X GET "http://localhost:3000/api/products/prod_ID" -u admin:admin123
+   # Get a product
+   curl -X GET "https://ecom-store-ebon.vercel.app/api/products/prod_ID" -u admin:admin123
    
-   # Update the product
-   curl -X PATCH "http://localhost:3000/api/products/prod_ID" -u admin:admin123 -H "Content-Type: application/json" -d '{"price": 89.99}'
+   # Update a product
+   curl -X PATCH "https://ecom-store-ebon.vercel.app/api/products/prod_ID" -u admin:admin123 -H "Content-Type: application/json" -d '{"price": 89.99}'
    ```
 
 ## References

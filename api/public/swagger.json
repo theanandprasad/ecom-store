@@ -10,8 +10,8 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000/api",
-      "description": "Development server"
+      "url": "https://ecom-store-ebon.vercel.app/api",
+      "description": "E-commerce API server"
     }
   ],
   "components": {

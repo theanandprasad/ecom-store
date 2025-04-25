@@ -83,12 +83,12 @@ For full documentation of all available endpoints, see [customer-api-examples.md
 - `GET /api/faq`: List all FAQ items, optionally filtered by category
   ```bash
   # Get all shipping-related FAQs
-  curl -X GET "http://localhost:3000/api/faq?category=SHIPPING" -u admin:admin123
+  curl -X GET "https://ecom-store-ebon.vercel.app/api/faq?category=SHIPPING" -u admin:admin123
   ```
 - `GET /api/faq/lookup`: Search for answers to specific questions
   ```bash
   # Find FAQ answers related to shipping
-  curl -X GET "http://localhost:3000/api/faq/lookup?query=shipping" -u admin:admin123
+  curl -X GET "https://ecom-store-ebon.vercel.app/api/faq/lookup?query=shipping" -u admin:admin123
   ```
 
 ## Authentication
@@ -136,7 +136,7 @@ The API supports two authentication methods:
    npm run dev
    ```
 
-The API will be available at `http://localhost:3000/api`
+The API will be available at `https://ecom-store-ebon.vercel.app/api`
 
 ## Database Configuration
 
