@@ -30,7 +30,8 @@ type CollectionName =
   | 'promotions'
   | 'returns'
   | 'notifications'
-  | 'faq';
+  | 'faq'
+  | 'categories';
 
 // Collection cache to avoid recreating instances
 const collections: Record<string, any> = {};
@@ -157,6 +158,11 @@ const setupIndexes = (collection: any, collectionName: CollectionName): void => 
     case 'products':
       collection.ensureIndex({ fieldName: 'id', unique: true });
       collection.ensureIndex({ fieldName: 'category' });
+      break;
+    case 'categories':
+      collection.ensureIndex({ fieldName: 'id', unique: true });
+      collection.ensureIndex({ fieldName: 'slug', unique: true });
+      collection.ensureIndex({ fieldName: 'parent_id' });
       break;
     case 'customers':
       collection.ensureIndex({ fieldName: 'id', unique: true });

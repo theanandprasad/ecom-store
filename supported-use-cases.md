@@ -769,6 +769,63 @@ For brevity, all examples:
 - Search for answers to common questions
   - `GET /api/faq/lookup?query=shipping`
 
+#### Example Use Cases
+- Get category-specific FAQs
+  ```bash
+  # Get all shipping-related FAQs
+  curl -X GET "https://ecom-store-ebon.vercel.app/api/faq?category=SHIPPING" -u admin:admin123
+  ```
+  ```json
+  # Response
+  {
+    "data": [
+      {
+        "id": "faq_007",
+        "category": "SHIPPING",
+        "question": "What are your shipping options?",
+        "answer": "We offer several shipping options: Standard (3-5 business days), Express (2-3 business days), and Overnight (next business day). Shipping costs vary based on the option selected and your location. Free shipping is available for orders over $50.",
+        "tags": ["shipping", "delivery", "options"],
+        "last_updated": "2024-03-20T10:00:00Z"
+      },
+      {
+        "id": "faq_008",
+        "category": "SHIPPING",
+        "question": "Do you ship internationally?",
+        "answer": "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary by destination. Some items may be restricted from international shipping due to local regulations. Please check the product page for shipping availability to your country.",
+        "tags": ["international", "shipping", "delivery"],
+        "last_updated": "2024-03-20T10:00:00Z"
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 20,
+      "total": 2
+    }
+  }
+  ```
+
+- Answer specific customer questions
+  ```bash
+  # Find specific information about international shipping
+  curl -X GET "https://ecom-store-ebon.vercel.app/api/faq/lookup?query=international+shipping" -u admin:admin123
+  ```
+  ```json
+  # Response
+  {
+    "data": {
+      "answer": "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary by destination. Some items may be restricted from international shipping due to local regulations. Please check the product page for shipping availability to your country.",
+      "confidence": 0.87,
+      "source": "FAQ faq_008"
+    }
+  }
+  ```
+
+- Implement a customer self-service FAQ section
+  ```bash
+  # Get all FAQs for self-service knowledge base
+  curl -X GET "https://ecom-store-ebon.vercel.app/api/faq?limit=100" -u admin:admin123
+  ```
+
 ### Notifications
 - View past notifications
   - `GET /api/customers/:id/notifications`

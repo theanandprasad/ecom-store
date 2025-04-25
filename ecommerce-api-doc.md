@@ -4,16 +4,17 @@
 1. [Introduction](#introduction)
 2. [Authentication](#authentication)
 3. [Products](#products)
-4. [Customers](#customers)
-5. [Orders](#orders)
-6. [Carts](#carts)
-7. [Wishlists](#wishlists)
-8. [Promotions](#promotions)
-9. [Support](#support)
-10. [FAQ](#faq)
-11. [Returns](#returns)
-12. [Search](#search)
-13. [Authentication Endpoints](#authentication-endpoints)
+4. [Categories](#categories)
+5. [Customers](#customers)
+6. [Orders](#orders)
+7. [Carts](#carts)
+8. [Wishlists](#wishlists)
+9. [Promotions](#promotions)
+10. [Support](#support)
+11. [FAQ](#faq)
+12. [Returns](#returns)
+13. [Search](#search)
+14. [Authentication Endpoints](#authentication-endpoints)
 
 ## Introduction
 
@@ -52,6 +53,8 @@ Retrieves a paginated list of products with optional filtering.
 curl -X GET "https://ecom-store-ebon.vercel.app/api/products?page=${PAGE}&limit=${LIMIT}&category=${CATEGORY}&search=${SEARCH_TERM}&sort_by=${SORT_FIELD}&sort_order=${SORT_DIRECTION}" \
   -u admin:admin123
 ```
+
+**Note:** For more reliable category filtering with complete product details, use the `/categories/:categoryId/products` endpoint instead.
 
 ### Get a specific product
 Retrieves detailed information about a single product.
@@ -182,6 +185,110 @@ curl -X POST "https://ecom-store-ebon.vercel.app/api/products/${PRODUCT_ID}/revi
     "verified_purchase": ${IS_VERIFIED}
   }'
 ```
+
+## Categories
+
+### List all categories
+Retrieves a paginated list of product categories.
+
+**Endpoint:** `GET /categories`
+
+**Query Parameters:**
+- `page` (optional, default: 1): The page number for pagination
+- `limit` (optional, default: 20): Number of items per page
+
+```bash
+curl -X GET "https://ecom-store-ebon.vercel.app/api/categories?page=${PAGE}&limit=${LIMIT}" \
+  -u admin:admin123
+```
+
+### Get a specific category
+Retrieves detailed information about a product category.
+
+**Endpoint:** `GET /categories/:categoryId`
+
+**Path Parameters:**
+- `categoryId` (required): The unique identifier of the category
+
+```bash
+curl -X GET "https://ecom-store-ebon.vercel.app/api/categories/${CATEGORY_ID}" \
+  -u admin:admin123
+```
+
+### Create a new category
+Adds a new product category to the catalog.
+
+**Endpoint:** `POST /categories`
+
+**Request Body Parameters:**
+- `name` (required): Name of the category
+- `description` (optional): Description of the category
+
+```bash
+curl -X POST "https://ecom-store-ebon.vercel.app/api/categories" \
+  -u admin:admin123 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "${CATEGORY_NAME}",
+    "description": "${CATEGORY_DESCRIPTION}"
+  }'
+```
+
+### Update a category
+Updates an existing product category's information.
+
+**Endpoint:** `PUT /categories/:categoryId`
+
+**Path Parameters:**
+- `categoryId` (required): The unique identifier of the category
+
+**Request Body Parameters:**
+- `name` (optional): Updated category name
+- `description` (optional): Updated category description
+
+```bash
+curl -X PUT "https://ecom-store-ebon.vercel.app/api/categories/${CATEGORY_ID}" \
+  -u admin:admin123 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "${UPDATED_NAME}",
+    "description": "${UPDATED_DESCRIPTION}"
+  }'
+```
+
+### Delete a category
+Removes a product category from the catalog.
+
+**Endpoint:** `DELETE /categories/:categoryId`
+
+**Path Parameters:**
+- `categoryId` (required): The unique identifier of the category
+
+```bash
+curl -X DELETE "https://ecom-store-ebon.vercel.app/api/categories/${CATEGORY_ID}" \
+  -u admin:admin123
+```
+
+### Get products by category
+Retrieves all products that belong to a specific category.
+
+**Endpoint:** `GET /categories/:categoryId/products`
+
+**Path Parameters:**
+- `categoryId` (required): The unique identifier of the category
+
+**Query Parameters:**
+- `page` (optional, default: 1): The page number for pagination
+- `limit` (optional, default: 10): Number of items per page
+- `sort_by` (optional, default: 'created_at'): Field to sort by (name, price, created_at)
+- `sort_order` (optional, default: 'desc'): Sort direction (asc, desc)
+
+```bash
+curl -X GET "https://ecom-store-ebon.vercel.app/api/categories/${CATEGORY_ID}/products?page=${PAGE}&limit=${LIMIT}&sort_by=${SORT_FIELD}&sort_order=${SORT_DIRECTION}" \
+  -u admin:admin123
+```
+
+**Note:** This is the recommended method for retrieving products by category, as it provides comprehensive product details and proper pagination.
 
 ## Customers
 
@@ -1090,23 +1197,83 @@ Retrieves a paginated list of frequently asked questions.
 **Query Parameters:**
 - `page` (optional, default: 1): The page number for pagination
 - `limit` (optional, default: 20): Number of items per page
-- `category` (optional): Filter by FAQ category
+- `category` (optional): Filter by FAQ category (e.g., "SHIPPING", "RETURNS", "PAYMENTS", "ORDERS", etc.)
+- `search` (optional): Search in question and answer fields
 
+**Example Request:**
 ```bash
-curl -X GET "https://ecom-store-ebon.vercel.app/api/faq?page=${PAGE}&limit=${LIMIT}&category=${CATEGORY}" \
+# Get all shipping-related FAQs
+curl -X GET "https://ecom-store-ebon.vercel.app/api/faq?category=SHIPPING" \
   -u admin:admin123
 ```
 
+**Example Response:**
+```json
+{
+  "data": [
+    {
+      "id": "faq_007",
+      "category": "SHIPPING",
+      "question": "What are your shipping options?",
+      "answer": "We offer several shipping options: Standard (3-5 business days), Express (2-3 business days), and Overnight (next business day). Shipping costs vary based on the option selected and your location. Free shipping is available for orders over $50.",
+      "tags": ["shipping", "delivery", "options"],
+      "last_updated": "2024-03-20T10:00:00Z"
+    },
+    {
+      "id": "faq_008",
+      "category": "SHIPPING",
+      "question": "Do you ship internationally?",
+      "answer": "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary by destination. Some items may be restricted from international shipping due to local regulations. Please check the product page for shipping availability to your country.",
+      "tags": ["international", "shipping", "delivery"],
+      "last_updated": "2024-03-20T10:00:00Z"
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 2
+  }
+}
+```
+
 ### Find answer to a query
-Searches for FAQ items matching a user query.
+Searches for FAQ items matching a user query. This endpoint uses a relevance-based search algorithm that considers both the question and answer fields, with more weight given to matches in the question field.
 
 **Endpoint:** `GET /faq/lookup`
 
 **Query Parameters:**
 - `query` (required): Search query for finding relevant FAQ items
 
+**Example Request:**
 ```bash
-curl -X GET "https://ecom-store-ebon.vercel.app/api/faq/lookup?query=${SEARCH_QUERY}" \
+# Find FAQ answers related to shipping
+curl -X GET "https://ecom-store-ebon.vercel.app/api/faq/lookup?query=shipping" \
+  -u admin:admin123
+```
+
+**Example Response:**
+```json
+{
+  "data": {
+    "answer": "We offer several shipping options: Standard (3-5 business days), Express (2-3 business days), and Overnight (next business day). Shipping costs vary based on the option selected and your location. Free shipping is available for orders over $50.",
+    "confidence": 0.83,
+    "source": "FAQ faq_007"
+  }
+}
+```
+
+**Example Specific Queries:**
+```bash
+# Find information about international shipping
+curl -X GET "https://ecom-store-ebon.vercel.app/api/faq/lookup?query=international+shipping" \
+  -u admin:admin123
+
+# Find information about shipping costs
+curl -X GET "https://ecom-store-ebon.vercel.app/api/faq/lookup?query=shipping+cost" \
+  -u admin:admin123
+
+# Find information about delivery times
+curl -X GET "https://ecom-store-ebon.vercel.app/api/faq/lookup?query=how+long+shipping" \
   -u admin:admin123
 ```
 
@@ -1182,6 +1349,9 @@ Searches for products matching the given query.
 curl -X GET "https://ecom-store-ebon.vercel.app/api/search/products?query=${SEARCH_QUERY}&category=${CATEGORY}&price_min=${MIN_PRICE}&price_max=${MAX_PRICE}&sort=${SORT_FIELD}&order=${SORT_DIRECTION}&page=${PAGE}&limit=${LIMIT}" \
   -u admin:admin123
 ```
+
+**Note on filtering products by category:**
+For basic category filtering with search capabilities, use this endpoint with a generic search term and the category parameter. For complete product details filtered by category without requiring a search term, use the `/categories/:categoryId/products` endpoint instead, which is the recommended approach.
 
 ## Authentication Endpoints
 

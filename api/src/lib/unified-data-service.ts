@@ -9,6 +9,7 @@ import DataService from './data-service';
 
 // Import database services
 import * as ProductsDbService from './db/services/products';
+import * as CategoriesDbService from './db/services/categories';
 import * as EntityServices from './db/entity-services';
 
 /**
@@ -527,6 +528,146 @@ export const deletePayment = async (id: string) => {
   throw new Error('Write operations not enabled. Enable NeDB mode to delete payments.');
 };
 
+/**
+ * Category Services
+ */
+export const getCategories = async (options?: any) => {
+  if (useNeDb()) {
+    return CategoriesDbService.getAllCategories(options);
+  }
+  // Fallback for static mode - extract categories from products
+  const products = await DataService.getProducts();
+  const categorySet = new Set<string>();
+  products.forEach(product => {
+    if (product.category) {
+      categorySet.add(product.category);
+    }
+  });
+  
+  // Convert to category objects
+  const categories = Array.from(categorySet).map(categoryName => ({
+    id: `cat_${categoryName.toLowerCase().replace(/\s+/g, '_')}`,
+    name: categoryName,
+    description: `${categoryName} products`,
+    slug: categoryName.toLowerCase().replace(/\s+/g, '-'),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  }));
+  
+  // Apply pagination if provided
+  const page = options?.page || 1;
+  const limit = options?.limit || categories.length;
+  const start = (page - 1) * limit;
+  const end = start + limit;
+  
+  return {
+    categories: categories.slice(start, end),
+    total: categories.length,
+    page,
+    limit
+  };
+};
+
+export const getCategoryById = async (id: string) => {
+  if (useNeDb()) {
+    return CategoriesDbService.getCategoryById(id);
+  }
+  
+  // Fallback for static mode
+  const categories = await getCategories();
+  return categories.categories.find(cat => cat.id === id) || null;
+};
+
+export const getCategoryBySlug = async (slug: string) => {
+  if (useNeDb()) {
+    return CategoriesDbService.getCategoryBySlug(slug);
+  }
+  
+  // Fallback for static mode
+  const categories = await getCategories();
+  return categories.categories.find(cat => cat.slug === slug) || null;
+};
+
+export const createCategory = async (data: any) => {
+  if (useNeDb()) {
+    return CategoriesDbService.createCategory(data);
+  }
+  throw new Error('Write operations not enabled. Enable NeDB mode to create categories.');
+};
+
+export const updateCategory = async (id: string, updates: any) => {
+  if (useNeDb()) {
+    return CategoriesDbService.updateCategory(id, updates);
+  }
+  throw new Error('Write operations not enabled. Enable NeDB mode to update categories.');
+};
+
+export const deleteCategory = async (id: string) => {
+  if (useNeDb()) {
+    return CategoriesDbService.deleteCategory(id);
+  }
+  throw new Error('Write operations not enabled. Enable NeDB mode to delete categories.');
+};
+
+export const getProductCountsByCategory = async () => {
+  if (useNeDb()) {
+    return CategoriesDbService.getProductCountsByCategory();
+  }
+  
+  // Fallback for static mode
+  const products = await DataService.getProducts();
+  const categoryCounts: Record<string, number> = {};
+  
+  products.forEach(product => {
+    if (product.category) {
+      const categoryId = `cat_${product.category.toLowerCase().replace(/\s+/g, '_')}`;
+      categoryCounts[categoryId] = (categoryCounts[categoryId] || 0) + 1;
+    }
+  });
+  
+  return categoryCounts;
+};
+
+export const getProductsForCategory = async (categoryId: string, options?: any) => {
+  if (useNeDb()) {
+    return CategoriesDbService.getProductsForCategory(categoryId, options);
+  }
+  
+  // Fallback for static mode
+  const category = await getCategoryById(categoryId);
+  if (!category) {
+    return { products: [], total: 0, page: options?.page || 1, limit: options?.limit || 10 };
+  }
+  
+  // Get products for this category name
+  const products = await DataService.getProductsByCategory(category.name);
+  
+  // Apply pagination
+  const page = options?.page || 1;
+  const limit = options?.limit || 10;
+  const start = (page - 1) * limit;
+  const end = start + limit;
+  
+  // Apply sorting if needed
+  let sortedProducts = [...products];
+  if (options?.sort_by) {
+    const sortOrder = options.sort_order === 'asc' ? 1 : -1;
+    sortedProducts = sortedProducts.sort((a, b) => {
+      if (a[options.sort_by] < b[options.sort_by]) return -1 * sortOrder;
+      if (a[options.sort_by] > b[options.sort_by]) return 1 * sortOrder;
+      return 0;
+    });
+  }
+  
+  // Return paginated results
+  return {
+    products: sortedProducts.slice(start, end),
+    total: products.length,
+    page,
+    limit
+  };
+};
+
 // Default export with all methods
 export default {
   // Products
@@ -619,5 +760,15 @@ export default {
   getPaymentById,
   createPayment,
   updatePayment,
-  deletePayment
+  deletePayment,
+  
+  // Categories
+  getCategories,
+  getCategoryById,
+  getCategoryBySlug,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  getProductCountsByCategory,
+  getProductsForCategory
 }; 

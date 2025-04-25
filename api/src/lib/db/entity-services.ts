@@ -20,7 +20,8 @@ export type CollectionName =
   | 'promotions' 
   | 'returns' 
   | 'notifications'
-  | 'payments';
+  | 'payments'
+  | 'categories';
 
 // Define pagination result interface
 export interface PaginatedResult<T> {
@@ -176,6 +177,7 @@ export const promotionService = generateEntityServices<any>('promotions');
 export const returnService = generateEntityServices<any>('returns');
 export const notificationService = generateEntityServices<any>('notifications');
 export const paymentService = generateEntityServices<any>('payments');
+export const categoryService = generateEntityServices<any>('categories');
 
 // For new collections, you can add them as needed:
 // export const newEntityService = generateEntityServices<any>('new_entity');
@@ -191,5 +193,6 @@ export default {
   promotionService,
   returnService,
   notificationService,
-  paymentService
+  paymentService,
+  categoryService
 }; 

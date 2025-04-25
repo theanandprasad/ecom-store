@@ -35,13 +35,35 @@ export async function GET(
     // Get orders for the customer
     const orders = await DataService.getOrdersByCustomerId(customerId);
     
+    // Get all products to add names
+    const products = await DataService.getProducts();
+    const productsMap = products.reduce((map, product) => {
+      map[product.id] = product;
+      return map;
+    }, {} as Record<string, any>);
+    
+    // Enhance orders with product names
+    const enhancedOrders = orders.map(order => {
+      const enhancedItems = order.items.map(item => {
+        return {
+          ...item,
+          product_name: productsMap[item.product_id]?.name || 'Unknown Product'
+        };
+      });
+      
+      return {
+        ...order,
+        items: enhancedItems
+      };
+    });
+    
     // Extract query parameters for pagination
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
     
     // Filter orders if needed
-    let filteredOrders = orders;
+    let filteredOrders = enhancedOrders;
     
     // Apply status filter if provided
     const status = searchParams.get('status');

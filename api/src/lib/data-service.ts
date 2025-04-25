@@ -101,6 +101,52 @@ export const DataService = {
     const products = await readData<Product>('products');
     return products.find(product => product.id === id);
   },
+  getProductsByCategory: async (categoryName: string) => {
+    const products = await readData<Product>('products');
+    return products.filter(product => product.category === categoryName);
+  },
+  
+  // Categories - derived from products for static mode
+  getCategories: async () => {
+    const products = await readData<Product>('products');
+    const categorySet = new Set<string>();
+    
+    products.forEach(product => {
+      if (product.category) {
+        categorySet.add(product.category);
+      }
+    });
+    
+    return Array.from(categorySet).map(categoryName => ({
+      id: `cat_${categoryName.toLowerCase().replace(/\s+/g, '_')}`,
+      name: categoryName,
+      description: `${categoryName} products`,
+      slug: categoryName.toLowerCase().replace(/\s+/g, '-'),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }));
+  },
+  getCategoryById: async (id: string) => {
+    const categories = await DataService.getCategories();
+    return categories.find(category => category.id === id);
+  },
+  getCategoryBySlug: async (slug: string) => {
+    const categories = await DataService.getCategories();
+    return categories.find(category => category.slug === slug);
+  },
+  getProductCountsByCategory: async () => {
+    const products = await readData<Product>('products');
+    const categoryCounts: Record<string, number> = {};
+    
+    products.forEach(product => {
+      if (product.category) {
+        const categoryId = `cat_${product.category.toLowerCase().replace(/\s+/g, '_')}`;
+        categoryCounts[categoryId] = (categoryCounts[categoryId] || 0) + 1;
+      }
+    });
+    
+    return categoryCounts;
+  },
   
   // Customers
   getCustomers: () => readData<Customer>('customers'),

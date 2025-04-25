@@ -10,7 +10,8 @@
     "lint": "next lint",
     "test": "jest",
     "db:setup": "node src/lib/db/setup.js",
-    "db:reset": "rm -rf ./db && npm run db:setup"
+    "db:reset": "rm -rf ./db && npm run db:setup",
+    "migrate-categories": "node src/scripts/migrate-categories.js"
   },
   "keywords": [
     "ecommerce",

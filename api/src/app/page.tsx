@@ -27,6 +27,7 @@ export default function Home() {
         </div>
         <p className="mb-4">
           This API provides endpoints for managing an e-commerce store, including products, customers, orders, carts, reviews, and more.
+          Browse products by categories including Electronics, Clothing, Accessories, and Books.
           All endpoints support filtering, pagination, and proper error handling.
         </p>
       </div>
@@ -59,6 +60,33 @@ export default function Home() {
               </li>
               <li>
                 <code className="font-mono font-bold">POST /api/products/:id/reviews</code> - Add a review to a product
+              </li>
+            </ul>
+          </div>
+          
+          <div className="mb-6">
+            <h3 className="text-xl font-semibold mb-2">Categories</h3>
+            <ul className="list-disc ml-5 space-y-1">
+              <li>
+                <code className="font-mono font-bold">GET /api/categories</code> - List all categories (Electronics, Clothing, Accessories, Books, etc.)
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/categories/:id</code> - Get a specific category
+              </li>
+              <li>
+                <code className="font-mono font-bold">POST /api/categories</code> - Create a new category
+              </li>
+              <li>
+                <code className="font-mono font-bold">PUT /api/categories/:id</code> - Update a category
+              </li>
+              <li>
+                <code className="font-mono font-bold">DELETE /api/categories/:id</code> - Delete a category
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/categories/:id/products</code> - Get products in a category
+              </li>
+              <li>
+                <code className="font-mono font-bold">GET /api/search/categories</code> - Search categories
               </li>
             </ul>
           </div>

@@ -78,8 +78,14 @@ const isCollectionEmpty = (collection) => {
 const loadJsonData = (collectionName) => {
   try {
     const jsonPath = path.join(process.cwd(), 'mock-data', `${collectionName}.json`);
+    console.log(`Loading data from: ${jsonPath}`);
     const rawData = fs.readFileSync(jsonPath, 'utf8');
-    return JSON.parse(rawData);
+    const parsedData = JSON.parse(rawData);
+    console.log(`Loaded ${collectionName} data with structure:`, Object.keys(parsedData));
+    if (parsedData[collectionName] && Array.isArray(parsedData[collectionName])) {
+      console.log(`Found ${parsedData[collectionName].length} items in ${collectionName} array`);
+    }
+    return parsedData;
   } catch (error) {
     console.error(`Error loading JSON data for ${collectionName}:`, error);
     return [];
@@ -110,6 +116,7 @@ const initializeFromJson = async (collection, collectionName) => {
           reject(err);
           return;
         }
+        console.log(`Cleared existing data in ${collectionName}`);
         resolve();
       });
     });
@@ -121,10 +128,13 @@ const initializeFromJson = async (collection, collectionName) => {
         ? jsonData[collectionName]
         : [jsonData];
     
+    console.log(`Preparing to insert ${dataToInsert.length} items into ${collectionName}`);
+    
     // Insert each item individually
     let insertedCount = 0;
     for (const item of dataToInsert) {
       await new Promise((resolve, reject) => {
+        console.log(`Inserting item: ${JSON.stringify(item).substring(0, 100)}...`);
         collection.insert(item, (err) => {
           if (err) {
             console.error(`Error inserting item into ${collectionName}:`, err);
@@ -198,6 +208,7 @@ const initializeCollectionIfEmpty = async (collectionName) => {
 
 // List of all collections to initialize
 const collections_to_initialize = [
+  'categories',
   'products',
   'customers',
   'orders',

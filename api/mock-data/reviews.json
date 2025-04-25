@@ -137,6 +137,62 @@
             ],
             "created_at": "2024-03-28T17:15:00Z",
             "updated_at": "2024-03-28T17:15:00Z"
+        },
+        {
+            "id": "rev_010",
+            "product_id": "prod_006",
+            "customer_id": "cust_002",
+            "order_id": "order_015",
+            "rating": 5,
+            "title": "Exceptional programming resource",
+            "content": "This is by far the most comprehensive and well-written programming book I've ever read. The author explains complex concepts in a clear and accessible way, with plenty of practical examples. I've already recommended it to all my colleagues.",
+            "verified_purchase": true,
+            "helpful_votes": 24,
+            "images": [],
+            "created_at": "2024-04-10T09:30:00Z",
+            "updated_at": "2024-04-10T09:30:00Z"
+        },
+        {
+            "id": "rev_011",
+            "product_id": "prod_006",
+            "customer_id": "cust_004",
+            "order_id": "order_017",
+            "rating": 4,
+            "title": "Great for intermediate programmers",
+            "content": "This book is excellent for programmers with some experience looking to improve their skills. The techniques described are practical and applicable to real-world scenarios. I would have liked more exercises at the end of each chapter, but overall it's a fantastic resource.",
+            "verified_purchase": true,
+            "helpful_votes": 10,
+            "images": [],
+            "created_at": "2024-04-12T14:20:00Z",
+            "updated_at": "2024-04-12T14:20:00Z"
+        },
+        {
+            "id": "rev_012",
+            "product_id": "prod_007",
+            "customer_id": "cust_003",
+            "order_id": "order_018",
+            "rating": 5,
+            "title": "Must-read for business leaders",
+            "content": "As a business owner, I found this book incredibly valuable. The strategies described are backed by solid research and case studies, and I've already begun implementing several of them in my company. The ROI frameworks are particularly useful.",
+            "verified_purchase": true,
+            "helpful_votes": 18,
+            "images": [],
+            "created_at": "2024-04-15T11:45:00Z",
+            "updated_at": "2024-04-15T11:45:00Z"
+        },
+        {
+            "id": "rev_013",
+            "product_id": "prod_007",
+            "customer_id": "cust_005",
+            "order_id": "order_020",
+            "rating": 3,
+            "title": "Good concepts but lacks depth",
+            "content": "The book provides a good overview of business strategy principles, but I was hoping for more in-depth analysis of specific strategies. The case studies are interesting but somewhat limited. It's a decent introduction to the subject but advanced readers might want something more comprehensive.",
+            "verified_purchase": true,
+            "helpful_votes": 7,
+            "images": [],
+            "created_at": "2024-04-18T16:30:00Z",
+            "updated_at": "2024-04-18T16:30:00Z"
         }
     ]
 } 
